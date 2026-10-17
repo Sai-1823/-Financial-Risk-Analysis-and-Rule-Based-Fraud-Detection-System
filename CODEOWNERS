@@ -1,0 +1,26 @@
+# Code owners for Project 21
+# TODO: Add your 4 teammates' GitHub usernames below when they join.
+# Format: @username
+
+# Root files - you own everything for now
+* @Padilammounika-21
+
+# Data layer
+/app/db/ @Padilammounika-21
+
+# API layer
+/app/api/ @Padilammounika-21
+/app/main.py @Padilammounika-21
+
+# Rule engine
+/app/rules/ @Padilammounika-21
+
+# Analytics & visualization
+/analytics/ @Padilammounika-21
+
+# Tests, QA, CI/CD
+/tests/ @Padilammounika-21
+/.github/ @Padilammounika-21
+
+# Docs
+/docs/ @Padilammounika-21

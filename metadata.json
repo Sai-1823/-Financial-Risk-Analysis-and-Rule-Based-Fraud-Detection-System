@@ -1,5 +1,5 @@
 {
-  "name": "Project 21: Financial Risk Analysis & Fraud Detection System",
+  "name": "RiskShield: Financial Risk Analysis & Fraud Detection System",
   "description": "Rule-based financial fraud detection and risk analysis platform for manual transaction review and anomaly scoring.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

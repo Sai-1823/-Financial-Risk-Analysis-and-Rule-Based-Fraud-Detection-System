@@ -28,7 +28,7 @@ def list_alerts(
 ):
     """
     Returns the fraud alert queue for human analyst triage.
-    Enforces the Project 21 standard: Flags are for manual review only.
+    Enforces the RiskShield standard: Flags are for manual review only.
     """
     query = (
         db.query(Alert, Transaction, Customer.customer_code)

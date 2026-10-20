@@ -1,5 +1,5 @@
 """
-Load sample data into the Project 21 database.
+Load sample data into the RiskShield database.
 
 Usage:
     python scripts/load_sample_data.py

@@ -1,5 +1,5 @@
 """
-Integration Tests for Project 21 FastAPI Endpoints
+Integration Tests for RiskShield FastAPI Endpoints
 Uses TestClient to test all API routes, status codes, and request bodies.
 """
 

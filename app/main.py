@@ -1,5 +1,5 @@
 """
-Project 21: Financial Risk Analysis and Rule-Based Fraud Detection System
+RiskShield: Financial Risk Analysis and Rule-Based Fraud Detection System
 FastAPI Application Entry Point
 
 Features:
@@ -28,7 +28,7 @@ from app.rules.engine import DEFAULT_WEIGHTS, ALERT_THRESHOLD, calculate_risk_sc
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Project 21: Financial Risk Analysis & Rule-Based Fraud Detection API",
+    title="RiskShield: Financial Risk Analysis & Rule-Based Fraud Detection API",
     description=(
         "Rule-based fraud detection microservice for a 5-person student team. "
         "Flags synthetic financial transactions for manual human review without labeling confirmed fraud."
@@ -64,7 +64,7 @@ def health_check(db: Session = Depends(get_db)):
 
     return {
         "status": "healthy",
-        "app": "Project 21 Financial Risk & Fraud Detection",
+        "app": "RiskShield Financial Risk & Fraud Detection",
         "timestamp": datetime.utcnow().isoformat(),
         "database": db_status,
         "database_url_type": "sqlite" if "sqlite" in str(engine.url) else "mysql",

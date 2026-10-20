@@ -1,6 +1,6 @@
 """
 Financial Risk Analysis and Rule-Based Fraud Detection Engine
-Project 21: Student Team Implementation
+RiskShield: Student Team Implementation
 
 RULE SPECIFICATION & WEIGHT MATRIX:
 1. unusual_amount (weight: 0.40):
@@ -27,7 +27,7 @@ This system NEVER labels transactions as "confirmed fraud".
 from typing import Dict, List, Tuple, Any, Optional
 from datetime import datetime
 
-# Default Weights defined by Project 21 specification
+# Default Weights defined by RiskShield specification
 DEFAULT_WEIGHTS = {
     "unusual_amount": 0.40,
     "high_frequency": 0.30,

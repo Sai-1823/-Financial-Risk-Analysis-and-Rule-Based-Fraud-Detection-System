@@ -68,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {isExpanded && (
             <div className="truncate transition-opacity duration-200">
               <div className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                Project 21
+                RiskShield
               </div>
               <div className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-tight truncate">
                 Fraud Detection

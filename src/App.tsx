@@ -1,5 +1,5 @@
 /**
- * Project 21: Financial Risk Analysis and Rule-Based Fraud Detection System
+ * RiskShield: Financial Risk Analysis and Rule-Based Fraud Detection System
  * Main Application Dashboard
  */
 
@@ -347,7 +347,7 @@ export default function App() {
               )}
             </button>
             <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 font-mono">
-              PROJECT 21
+              RISKSHIELD
             </span>
             <div className="h-4 w-px bg-slate-200 dark:border-slate-800" />
             <span className="text-sm font-semibold capitalize text-slate-700 dark:text-slate-200">

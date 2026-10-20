@@ -1,6 +1,6 @@
 """
 Synthetic Data Generation and Anomaly Seeding Script
-Project 21: Financial Risk Analysis & Rule-Based Fraud Detection System
+RiskShield: Financial Risk Analysis & Rule-Based Fraud Detection System
 
 Generates ~500 synthetic transactions across synthetic customers/accounts.
 Deliberately seeds anomalies:
@@ -272,7 +272,7 @@ def seed_database(db: Session, target_transactions: int = 500) -> Dict[str, Any]
 if __name__ == "__main__":
     db = SessionLocal()
     try:
-        print("[+] Seeding synthetic financial dataset for Project 21...")
+        print("[+] Seeding synthetic financial dataset for RiskShield...")
         stats = seed_database(db, target_transactions=500)
         print(f"[✓] Seeding complete! Summary:")
         for k, v in stats.items():

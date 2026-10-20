@@ -1,4 +1,4 @@
-# Project 21: Financial Risk Analysis and Rule-Based Fraud Detection System
+# RiskShield: Financial Risk Analysis and Rule-Based Fraud Detection System
 
 > **A 5-Person Student Team Engineering Project**  
 > **Core Mandate:** Analyze synthetic financial transactions ONLY. Flags are raised for human manual review. **Never** label transactions as "confirmed fraud".

@@ -1,6 +1,6 @@
 """
 Data Analysis & Visualization Script
-Project 21: Financial Risk Analysis and Rule-Based Fraud Detection System
+RiskShield: Financial Risk Analysis and Rule-Based Fraud Detection System
 
 Utilizes:
 - Pandas: Feature preparation, transaction aggregation, rolling windows.
@@ -89,7 +89,7 @@ def run_data_analysis(output_dir: str = "docs/visualizations"):
             plt.plot(daily_tx.index, daily_tx.values, label="Transactions Evaluated", color="#3b82f6", marker="o", linewidth=2)
             plt.plot(daily_alerts.index, daily_alerts.values, label="Alerts Flagged (Score > 0.30)", color="#ef4444", marker="s", linewidth=2)
             
-            plt.title("Project 21: Daily Financial Transaction & Alert Trends", fontsize=12, fontweight="bold")
+            plt.title("RiskShield: Daily Financial Transaction & Alert Trends", fontsize=12, fontweight="bold")
             plt.xlabel("Date", fontsize=10)
             plt.ylabel("Count", fontsize=10)
             plt.xticks(rotation=45, ha="right", fontsize=9)
@@ -117,7 +117,7 @@ def run_data_analysis(output_dir: str = "docs/visualizations"):
                 else:
                     patch.set_facecolor("#ef4444")  # Red
 
-            plt.title("Project 21: Risk Score Distribution (Flagged Alerts)", fontsize=12, fontweight="bold")
+            plt.title("RiskShield: Risk Score Distribution (Flagged Alerts)", fontsize=12, fontweight="bold")
             plt.xlabel("Heuristic Risk Score (0.30 to 1.00)", fontsize=10)
             plt.ylabel("Alert Frequency", fontsize=10)
             plt.axvline(0.70, color="darkred", linestyle="--", linewidth=1.5, label="High-Risk Threshold (0.70)")

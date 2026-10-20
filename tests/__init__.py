@@ -1,1 +1,1 @@
-"""Test suite package for Project 21"""
+"""Test suite package for RiskShield"""

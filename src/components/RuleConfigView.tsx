@@ -84,7 +84,7 @@ export const RuleConfigView: React.FC<RuleConfigViewProps> = ({
             Rule Engine & Weight Calibration
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Configure risk scoring parameters for the 4 fraud heuristics in accordance with Project 21 specifications
+            Configure risk scoring parameters for the 4 fraud heuristics in accordance with RiskShield specifications
           </p>
         </div>
 

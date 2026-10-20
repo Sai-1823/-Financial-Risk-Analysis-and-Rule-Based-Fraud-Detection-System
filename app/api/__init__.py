@@ -1,1 +1,1 @@
-"""API subpackage for Project 21"""
+"""API subpackage for RiskShield"""

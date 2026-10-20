@@ -1,6 +1,6 @@
-# Project 21: Contributing Guidelines & Engineering Standards
+# RiskShield: Contributing Guidelines & Engineering Standards
 
-Welcome to the team repository for **Project 21: Financial Risk Analysis and Rule-Based Fraud Detection System**. These standards ensure our 5-person engineering team collaborates effectively, maintains clean code, and upholds academic integrity.
+Welcome to the team repository for **RiskShield: Financial Risk Analysis and Rule-Based Fraud Detection System**. These standards ensure our 5-person engineering team collaborates effectively, maintains clean code, and upholds academic integrity.
 
 ---
 

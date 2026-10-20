@@ -1,4 +1,4 @@
-# Project 21: Evaluation Report on Rule-Based Fraud Detection System
+# RiskShield: Evaluation Report on Rule-Based Fraud Detection System
 
 **Author:** 5-Person Engineering Team  
 **Evaluation Date:** October 2026  
@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-This evaluation analyzes the efficacy and operational trade-offs of the rule-based fraud detection architecture implemented in **Project 21**. Utilizing a deterministic four-factor heuristic engine, the system processed **500 synthetic transactions** across 25 customer profiles, evaluating each against contextual behavioral baselines.
+This evaluation analyzes the efficacy and operational trade-offs of the rule-based fraud detection architecture implemented in **RiskShield**. Utilizing a deterministic four-factor heuristic engine, the system processed **500 synthetic transactions** across 25 customer profiles, evaluating each against contextual behavioral baselines.
 
 ### Primary System Directive
 The system serves as a **triage filter for manual compliance review**. In compliance with legal fair-lending and consumer banking mandates, transactions exceeding the composite risk threshold of **0.30** are flagged as alerts and staged in a human-in-the-loop review queue. Under no circumstance does the automated system label a transaction as "confirmed fraud".
@@ -94,4 +94,4 @@ A false negative occurs when malicious behavior slips undetected below the rule 
 
 ## 7. Conclusion
 
-The rule-based architecture of Project 21 provides a deterministic, transparent, and auditable foundation suitable for manual triage in regulated financial environments. While static rules suffer from clear false-positive and evasion boundaries, pairing this engine with a responsive analyst review queue effectively balances automated risk scoring with human discretion.
+The rule-based architecture of RiskShield provides a deterministic, transparent, and auditable foundation suitable for manual triage in regulated financial environments. While static rules suffer from clear false-positive and evasion boundaries, pairing this engine with a responsive analyst review queue effectively balances automated risk scoring with human discretion.

@@ -26,6 +26,9 @@ coverage.xml
 # --- Node / Frontend ---
 node_modules/
 npm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
@@ -49,6 +52,7 @@ build/
 *.sqlite
 *.sqlite3
 project21.db
+test_project21.db
 logs/
 *.log
 .pytest_cache/

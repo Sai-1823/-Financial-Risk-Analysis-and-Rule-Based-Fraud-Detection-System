@@ -4,6 +4,7 @@ Uses TestClient to test all API routes, status codes, and request bodies.
 """
 
 import pytest
+from datetime import datetime
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -13,8 +14,10 @@ from app.db.database import Base, get_db
 from app.db.schema import Customer, Account, Transaction, Alert
 
 
-# Use an in-memory SQLite database for isolated test execution
-SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///:memory:"
+# Use a file-based SQLite database for isolated test execution
+# (sqlite:///:memory: creates a new empty DB per connection, so tables
+# created by create_all are not visible across TestClient requests)
+SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///./test_project21.db"
 
 engine = create_engine(
     SQLALCHEMY_TEST_DATABASE_URL,
@@ -79,7 +82,7 @@ def test_seed_and_list_transactions():
 
 def test_batch_import_and_alert_trigger():
     """Verify POST /transactions detects anomaly and auto-generates an alert."""
-    # Seed baseline customer
+    # Seed baseline customer with normal transaction history
     db = TestingSessionLocal()
     cust = Customer(customer_code="CUST-TEST-1")
     db.add(cust)
@@ -88,9 +91,24 @@ def test_batch_import_and_alert_trigger():
     db.add(acc)
     db.commit()
     account_id = acc.account_id
+
+    # Add 3 normal transactions (~$50 avg) to establish customer baseline
+    from datetime import datetime
+    base = datetime(2026, 10, 20, 10, 0, 0)
+    for i, amt in enumerate([40.0, 55.0, 50.0]):
+        tx = Transaction(
+            account_id=account_id,
+            transaction_datetime=base,
+            amount=amt,
+            transaction_type="payment",
+            channel="web",
+            region_optional="US-East",
+        )
+        db.add(tx)
+    db.commit()
     db.close()
 
-    # Import an extreme outlier transaction (3 AM, $9500)
+    # Import an extreme outlier transaction (3 AM, $9500 = 190x avg)
     tx_payload = [
         {
             "account_id": account_id,

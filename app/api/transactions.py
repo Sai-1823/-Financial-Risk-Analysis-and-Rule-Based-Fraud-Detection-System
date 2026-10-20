@@ -1,6 +1,6 @@
 from typing import List, Optional, Any, Dict
 from datetime import datetime
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Body, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
@@ -149,7 +149,7 @@ def list_transactions(
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 def import_transactions(
-    payload: Any,  # Supports single TransactionCreate, list of TransactionCreate, or {items: [...]}
+    payload: Any = Body(...),  # Supports single TransactionCreate, list of TransactionCreate, or {items: [...]}
     db: Session = Depends(get_db),
 ):
     """

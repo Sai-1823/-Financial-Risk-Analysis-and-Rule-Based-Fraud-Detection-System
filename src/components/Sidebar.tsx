@@ -7,11 +7,8 @@ import {
   History,
   Moon,
   Sun,
-  Server,
-  RefreshCw,
   ShieldCheck,
 } from 'lucide-react';
-import { BackendStatus } from '../services/apiClient';
 
 interface SidebarProps {
   currentTab: string;
@@ -19,9 +16,6 @@ interface SidebarProps {
   pendingAlertsCount: number;
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
-  backendStatus: BackendStatus;
-  onRefreshData: () => void;
-  isRefreshing: boolean;
   isCollapsed: boolean;
   setIsCollapsed: (val: boolean) => void;
 }
@@ -32,9 +26,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   pendingAlertsCount,
   darkMode,
   setDarkMode,
-  backendStatus,
-  onRefreshData,
-  isRefreshing,
   isCollapsed,
   setIsCollapsed,
 }) => {
@@ -132,61 +123,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         })}
       </nav>
 
-      {/* System Status & Bottom Controls */}
+      {/* Bottom Controls */}
       <div className="p-3 border-t border-slate-200 dark:border-slate-800 space-y-2.5 overflow-hidden">
-        {/* Connection status */}
-        {isExpanded ? (
-          <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 text-xs">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5">
-                <Server className="w-3.5 h-3.5" />
-                Engine Status
-              </span>
-              <span
-                className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold ${
-                  backendStatus.isOnline
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                    : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
-                }`}
-              >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    backendStatus.isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-indigo-500'
-                  }`}
-                />
-                {backendStatus.isOnline ? 'FastAPI' : 'Sandbox'}
-              </span>
-            </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight truncate">
-              {backendStatus.isOnline ? 'Port 8000 Connected' : 'Client Mode Active'}
-            </p>
-          </div>
-        ) : (
-          <div
-            className="flex justify-center p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50"
-            title={backendStatus.isOnline ? 'FastAPI Active on :8000' : 'Client Simulation Sandbox'}
-          >
-            <span
-              className={`w-2.5 h-2.5 rounded-full ${
-                backendStatus.isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-indigo-500'
-              }`}
-            />
-          </div>
-        )}
-
-        {/* Action buttons */}
         <div className={`flex items-center gap-1.5 ${!isExpanded ? 'flex-col' : ''}`}>
-          <button
-            onClick={onRefreshData}
-            disabled={isRefreshing}
-            className={`flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors disabled:opacity-50 ${
-              isExpanded ? 'flex-1 px-2.5' : 'w-full px-2'
-            }`}
-            title="Re-seed synthetic dataset"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            {isExpanded && <span>Re-seed</span>}
-          </button>
           <button
             onClick={() => setDarkMode(!darkMode)}
             className={`p-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700 transition-colors ${

@@ -6,9 +6,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   ShieldAlert,
-  Server,
-  Zap,
-  RefreshCw,
   Sun,
   Moon,
   Sparkles,
@@ -39,21 +36,17 @@ import {
 } from './types';
 import {
   DEFAULT_WEIGHTS,
-  generateSyntheticDataset,
   computeAnalytics,
   computeDailyTrends,
   evaluateTransactionRules,
 } from './services/syntheticEngine';
 import {
-  checkBackendHealth,
-  BackendStatus,
   fetchLiveTransactions,
   fetchLiveAlerts,
   fetchLiveAnalyticsSummary,
   fetchLiveAnalyticsTrends,
   patchLiveAlertReview,
   postLiveTransactionsBatch,
-  triggerLiveSeed,
 } from './services/apiClient';
 
 export default function App() {
@@ -96,29 +89,19 @@ export default function App() {
     }
   });
 
-  // Backend status
-  const [backendStatus, setBackendStatus] = useState<BackendStatus>({
-    isOnline: false,
-    lastChecked: new Date(),
-  });
-
   // In-memory data repository
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [alerts, setAlerts] = useState<AlertItem[]>([]);
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
 
-  // Initialize data: check backend first, fallback to in-memory generator
+  // Initialize data from backend
   const loadData = useCallback(async () => {
-    setIsRefreshing(true);
-    const status = await checkBackendHealth();
-    setBackendStatus(status);
-
-    if (status.isOnline) {
-      // Load live from FastAPI backend
+    setIsLoading(true);
+    try {
       const [txRes, alertsRes] = await Promise.all([
         fetchLiveTransactions({ limit: 300 }),
         fetchLiveAlerts({ limit: 150 }),
@@ -126,25 +109,17 @@ export default function App() {
 
       if (txRes && txRes.items.length > 0) {
         setTransactions(txRes.items);
-      } else {
-        // Auto trigger initial seed on backend
-        await triggerLiveSeed(500);
-        const refetchTx = await fetchLiveTransactions({ limit: 300 });
-        if (refetchTx) setTransactions(refetchTx.items);
       }
 
       if (alertsRes && alertsRes.items) {
         setAlerts(alertsRes.items);
       }
-    } else {
-      // Standalone simulation mode
-      const dataset = generateSyntheticDataset(500, ruleWeights);
-      setTransactions(dataset.transactions);
-      setAlerts(dataset.alerts);
-      setAuditLogs(dataset.auditLogs);
+    } catch (err) {
+      console.error('Failed to load data from backend:', err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsRefreshing(false);
-  }, [ruleWeights]);
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -164,21 +139,6 @@ export default function App() {
   const pendingAlertsCount = useMemo(() => {
     return alerts.filter((a) => a.review_status === 'pending').length;
   }, [alerts]);
-
-  // Handle re-seeding
-  const handleReseed = async () => {
-    setIsRefreshing(true);
-    if (backendStatus.isOnline) {
-      await triggerLiveSeed(500);
-      await loadData();
-    } else {
-      const dataset = generateSyntheticDataset(500, ruleWeights);
-      setTransactions(dataset.transactions);
-      setAlerts(dataset.alerts);
-      setAuditLogs(dataset.auditLogs);
-    }
-    setIsRefreshing(false);
-  };
 
   // Handle saving new weights
   const handleSaveWeights = (newWeights: RuleWeightConfig) => {
@@ -247,10 +207,7 @@ export default function App() {
     status: 'pending' | 'approved' | 'rejected',
     reason: string
   ) => {
-    // If backend is active, send PATCH
-    if (backendStatus.isOnline) {
-      await patchLiveAlertReview(alertId, status, reason);
-    }
+    await patchLiveAlertReview(alertId, status, reason);
 
     const targetAlert = alerts.find((a) => a.alert_id === alertId);
     const prevStatus = targetAlert?.review_status || 'pending';
@@ -302,107 +259,12 @@ export default function App() {
 
   // Batch import transactions
   const handleImportTransactions = async (items: any[]) => {
-    if (backendStatus.isOnline) {
-      const res = await postLiveTransactionsBatch(items);
-      await loadData();
-      return {
-        imported: res?.imported_count || items.length,
-        alertsCreated: res?.alerts_created_count || 0,
-      };
-    }
-
-    // Client mode evaluation
-    let createdAlertsCount = 0;
-    const newTxList: Transaction[] = [];
-    const newAlertList: AlertItem[] = [];
-
-    const now = new Date();
-    let nextTxId = Math.max(...transactions.map((t) => t.transaction_id), 0) + 1;
-    let nextAlertId = Math.max(...alerts.map((a) => a.alert_id), 0) + 1;
-
-    for (const item of items) {
-      const amount = parseFloat(item.amount) || 100;
-      const accId = parseInt(item.account_id) || 11;
-      const txTime = item.transaction_datetime || now.toISOString();
-      const region = item.region_optional || 'US-East';
-
-      // Use provided context or customer baseline
-      const custAvg = item.customer_avg_amount !== undefined ? Number(item.customer_avg_amount) : 50.0;
-      const recentVelocity = item.recent_60m_count !== undefined ? Number(item.recent_60m_count) : 1;
-
-      // Evaluate against current weights
-      const evalRes = evaluateTransactionRules(
-        {
-          amount,
-          transaction_datetime: txTime,
-          region_optional: region,
-          account_id: accId,
-        },
-        {
-          customer_avg_amount: custAvg,
-          recent_60m_count: recentVelocity,
-          known_regions: ['US-East', 'US-West'],
-        },
-        ruleWeights
-      );
-
-      const tx: Transaction = {
-        transaction_id: nextTxId++,
-        account_id: accId,
-        customer_code: `CUST-${1000 + (accId % 20)}`,
-        transaction_datetime: txTime,
-        amount,
-        transaction_type: item.transaction_type || 'payment',
-        channel: item.channel || 'web',
-        region_optional: region,
-        created_at: now.toISOString(),
-        is_flagged: evalRes.score > ruleWeights.alert_threshold,
-        max_risk_score: evalRes.score,
-        alerts: [],
-      };
-
-      if (evalRes.score > ruleWeights.alert_threshold && evalRes.triggeredRules.length > 0) {
-        const primaryRule = evalRes.triggeredRules.length === 1 ? evalRes.triggeredRules[0] : 'multi_rule';
-        const alertItem: AlertItem = {
-          alert_id: nextAlertId++,
-          transaction_id: tx.transaction_id,
-          customer_code: tx.customer_code!,
-          account_id: tx.account_id,
-          amount: tx.amount,
-          channel: tx.channel,
-          region: tx.region_optional,
-          transaction_datetime: tx.transaction_datetime,
-          rule_name: primaryRule,
-          risk_score: evalRes.score,
-          review_status: 'pending',
-          review_reason: evalRes.reasons.join('; '),
-          created_at: now.toISOString(),
-        };
-
-        newAlertList.push(alertItem);
-        tx.alerts = [
-          {
-            alert_id: alertItem.alert_id,
-            transaction_id: tx.transaction_id,
-            rule_name: primaryRule,
-            risk_score: evalRes.score,
-            review_status: 'pending',
-            review_reason: alertItem.review_reason,
-            created_at: alertItem.created_at,
-          },
-        ];
-        createdAlertsCount++;
-      }
-
-      newTxList.push(tx);
-    }
-
-    setTransactions((prev) => [...newTxList, ...prev]);
-    if (newAlertList.length > 0) {
-      setAlerts((prev) => [...newAlertList, ...prev]);
-    }
-
-    return { imported: newTxList.length, alertsCreated: createdAlertsCount };
+    const res = await postLiveTransactionsBatch(items);
+    await loadData();
+    return {
+      imported: res?.imported_count || items.length,
+      alertsCreated: res?.alerts_created_count || 0,
+    };
   };
 
   // Quick Anomaly Injector helper
@@ -464,9 +326,6 @@ export default function App() {
         pendingAlertsCount={pendingAlertsCount}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
-        backendStatus={backendStatus}
-        onRefreshData={handleReseed}
-        isRefreshing={isRefreshing}
         isCollapsed={isSidebarCollapsed}
         setIsCollapsed={setIsSidebarCollapsed}
       />
@@ -507,25 +366,6 @@ export default function App() {
               <Download className="w-3.5 h-3.5" />
               <span>Download Code (.zip)</span>
             </a>
-
-            {/* Backend connectivity pill */}
-            <div
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${
-                backendStatus.isOnline
-                  ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                  : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-700 dark:text-indigo-300'
-              }`}
-              title={
-                backendStatus.isOnline
-                  ? 'FastAPI + SQLAlchemy active on port 8000'
-                  : 'FastAPI not detected on :8000. Running in zero-config client simulation mode.'
-              }
-            >
-              <Server className="w-3.5 h-3.5" />
-              <span>
-                {backendStatus.isOnline ? '🟢 Live API (:8000)' : '⚡ Client Sandbox Mode'}
-              </span>
-            </div>
           </div>
         </header>
 

@@ -1,60 +1,52 @@
 {
   "customers": [
-    {"customer_id": "cust-001", "customer_code": "CUST-1001"},
-    {"customer_id": "cust-002", "customer_code": "CUST-1002"},
-    {"customer_id": "cust-003", "customer_code": "CUST-1003"},
-    {"customer_id": "cust-004", "customer_code": "CUST-1004"},
-    {"customer_id": "cust-005", "customer_code": "CUST-1005"},
-    {"customer_id": "cust-006", "customer_code": "CUST-1006"},
-    {"customer_id": "cust-007", "customer_code": "CUST-1007"},
-    {"customer_id": "cust-008", "customer_code": "CUST-1008"}
+    {"customer_code": "CUST-1001"},
+    {"customer_code": "CUST-1002"},
+    {"customer_code": "CUST-1003"},
+    {"customer_code": "CUST-1004"},
+    {"customer_code": "CUST-1005"},
+    {"customer_code": "CUST-1006"},
+    {"customer_code": "CUST-1007"},
+    {"customer_code": "CUST-1008"}
   ],
   "accounts": [
-    {"account_id": "acct-001", "customer_id": "cust-001"},
-    {"account_id": "acct-002", "customer_id": "cust-001"},
-    {"account_id": "acct-003", "customer_id": "cust-002"},
-    {"account_id": "acct-004", "customer_id": "cust-003"},
-    {"account_id": "acct-005", "customer_id": "cust-004"},
-    {"account_id": "acct-006", "customer_id": "cust-005"},
-    {"account_id": "acct-007", "customer_id": "cust-006"},
-    {"account_id": "acct-008", "customer_id": "cust-007"},
-    {"account_id": "acct-009", "customer_id": "cust-008"}
+    {"customer_id": 1},
+    {"customer_id": 1},
+    {"customer_id": 2},
+    {"customer_id": 3},
+    {"customer_id": 4},
+    {"customer_id": 5},
+    {"customer_id": 6},
+    {"customer_id": 7},
+    {"customer_id": 8}
   ],
   "transactions": [
-    // Normal transactions
-    {"transaction_id": "txn-001", "account_id": "acct-001", "transaction_datetime": "2026-10-15T10:30:00", "amount": 45.50, "transaction_type": "payment", "channel": "web", "region_optional": "US-East"},
-    {"transaction_id": "txn-002", "account_id": "acct-001", "transaction_datetime": "2026-10-15T14:20:00", "amount": 32.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-East"},
-    {"transaction_id": "txn-003", "account_id": "acct-003", "transaction_datetime": "2026-10-16T09:15:00", "amount": 120.00, "transaction_type": "transfer", "channel": "web", "region_optional": "US-West"},
-    {"transaction_id": "txn-004", "account_id": "acct-004", "transaction_datetime": "2026-10-16T11:45:00", "amount": 67.80, "transaction_type": "withdrawal", "channel": "atm", "region_optional": "US-East"},
-    {"transaction_id": "txn-005", "account_id": "acct-005", "transaction_datetime": "2026-10-17T08:00:00", "amount": 200.00, "transaction_type": "payment", "channel": "branch", "region_optional": "US-Central"},
-    {"transaction_id": "txn-006", "account_id": "acct-006", "transaction_datetime": "2026-10-17T09:30:00", "amount": 85.00, "transaction_type": "payment", "channel": "mobile_app", "region_optional": "US-East"},
-    {"transaction_id": "txn-007", "account_id": "acct-007", "transaction_datetime": "2026-10-17T10:15:00", "amount": 150.00, "transaction_type": "deposit", "channel": "branch", "region_optional": "EU-Central"},
-    {"transaction_id": "txn-008", "account_id": "acct-008", "transaction_datetime": "2026-10-17T11:00:00", "amount": 25.00, "transaction_type": "payment", "channel": "web", "region_optional": "APAC-South"},
-    {"transaction_id": "txn-009", "account_id": "acct-009", "transaction_datetime": "2026-10-17T12:30:00", "amount": 340.00, "transaction_type": "transfer", "channel": "web", "region_optional": "LATAM-North"},
-    {"transaction_id": "txn-010", "account_id": "acct-002", "transaction_datetime": "2026-10-17T13:45:00", "amount": 78.90, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-East"},
-
-    // Anomalous transactions (will trigger alerts)
-    // Unusual amount (>3x average)
-    {"transaction_id": "txn-011", "account_id": "acct-001", "transaction_datetime": "2026-10-17T03:15:00", "amount": 5000.00, "transaction_type": "transfer", "channel": "wire", "region_optional": "US-East"},
-    // Unusual time (22:00-06:00)
-    {"transaction_id": "txn-012", "account_id": "acct-002", "transaction_datetime": "2026-10-17T02:45:00", "amount": 180.00, "transaction_type": "withdrawal", "channel": "atm", "region_optional": "US-East"},
-    // Location change (new region)
-    {"transaction_id": "txn-013", "account_id": "acct-003", "transaction_datetime": "2026-10-17T10:00:00", "amount": 30.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "RU-East"},
-    // High frequency (>5 in 60 min) - burst
-    {"transaction_id": "txn-014", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:00:00", "amount": 25.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    {"transaction_id": "txn-015", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:05:00", "amount": 28.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    {"transaction_id": "txn-016", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:10:00", "amount": 32.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    {"transaction_id": "txn-017", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:15:00", "amount": 35.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    {"transaction_id": "txn-018", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:20:00", "amount": 40.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    {"transaction_id": "txn-019", "account_id": "acct-004", "transaction_datetime": "2026-10-17T10:25:00", "amount": 45.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
-    // Compound anomaly (amount + time + location)
-    {"transaction_id": "txn-020", "account_id": "acct-005", "transaction_datetime": "2026-10-17T04:30:00", "amount": 8500.00, "transaction_type": "transfer", "channel": "wire", "region_optional": "APAC-South"}
+    {"account_id": 1, "transaction_datetime": "2026-10-15T10:30:00", "amount": 45.50, "transaction_type": "payment", "channel": "web", "region_optional": "US-East"},
+    {"account_id": 1, "transaction_datetime": "2026-10-15T14:20:00", "amount": 32.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-East"},
+    {"account_id": 3, "transaction_datetime": "2026-10-16T09:15:00", "amount": 120.00, "transaction_type": "transfer", "channel": "web", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-16T11:45:00", "amount": 67.80, "transaction_type": "withdrawal", "channel": "atm", "region_optional": "US-East"},
+    {"account_id": 5, "transaction_datetime": "2026-10-17T08:00:00", "amount": 200.00, "transaction_type": "payment", "channel": "branch", "region_optional": "US-Central"},
+    {"account_id": 6, "transaction_datetime": "2026-10-17T09:30:00", "amount": 85.00, "transaction_type": "payment", "channel": "mobile_app", "region_optional": "US-East"},
+    {"account_id": 7, "transaction_datetime": "2026-10-17T10:15:00", "amount": 150.00, "transaction_type": "deposit", "channel": "branch", "region_optional": "EU-Central"},
+    {"account_id": 8, "transaction_datetime": "2026-10-17T11:00:00", "amount": 25.00, "transaction_type": "payment", "channel": "web", "region_optional": "APAC-South"},
+    {"account_id": 9, "transaction_datetime": "2026-10-17T12:30:00", "amount": 340.00, "transaction_type": "transfer", "channel": "web", "region_optional": "LATAM-North"},
+    {"account_id": 2, "transaction_datetime": "2026-10-17T13:45:00", "amount": 78.90, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-East"},
+    {"account_id": 1, "transaction_datetime": "2026-10-17T03:15:00", "amount": 5000.00, "transaction_type": "transfer", "channel": "wire", "region_optional": "US-East"},
+    {"account_id": 2, "transaction_datetime": "2026-10-17T02:45:00", "amount": 180.00, "transaction_type": "withdrawal", "channel": "atm", "region_optional": "US-East"},
+    {"account_id": 3, "transaction_datetime": "2026-10-17T10:00:00", "amount": 30.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "RU-East"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:00:00", "amount": 25.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:05:00", "amount": 28.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:10:00", "amount": 32.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:15:00", "amount": 35.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:20:00", "amount": 40.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 4, "transaction_datetime": "2026-10-17T10:25:00", "amount": 45.00, "transaction_type": "pos", "channel": "mobile_app", "region_optional": "US-West"},
+    {"account_id": 5, "transaction_datetime": "2026-10-17T04:30:00", "amount": 8500.00, "transaction_type": "transfer", "channel": "wire", "region_optional": "APAC-South"}
   ],
   "alerts": [
-    {"alert_id": "alert-001", "transaction_id": "txn-011", "rule_name": "multi_rule", "risk_score": 0.50, "review_status": "pending", "review_reason": "Amount $5,000.00 exceeds 3x customer average ($127.20); Off-hours transaction at 03:15"},
-    {"alert_id": "alert-002", "transaction_id": "txn-012", "rule_name": "unusual_time", "risk_score": 0.10, "review_status": "pending", "review_reason": "Off-hours transaction at 02:45"},
-    {"alert_id": "alert-003", "transaction_id": "txn-013", "rule_name": "location_change", "risk_score": 0.20, "review_status": "pending", "review_reason": "Unfamiliar region 'RU-East' not in customer's prior transaction history"},
-    {"alert_id": "alert-004", "transaction_id": "txn-019", "rule_name": "high_frequency", "risk_score": 0.30, "review_status": "pending", "review_reason": "6 transactions recorded in past 60 minutes"},
-    {"alert_id": "alert-005", "transaction_id": "txn-020", "rule_name": "multi_rule", "risk_score": 0.70, "review_status": "pending", "review_reason": "Amount $8,500.00 exceeds 3x customer average; Off-hours transaction at 04:30; Unfamiliar region 'APAC-South'"}
+    {"transaction_id": 11, "rule_name": "multi_rule", "risk_score": 0.50, "review_status": "pending", "review_reason": "Amount $5,000.00 exceeds 3x customer average ($127.20); Off-hours transaction at 03:15"},
+    {"transaction_id": 12, "rule_name": "unusual_time", "risk_score": 0.10, "review_status": "pending", "review_reason": "Off-hours transaction at 02:45"},
+    {"transaction_id": 13, "rule_name": "location_change", "risk_score": 0.20, "review_status": "pending", "review_reason": "Unfamiliar region 'RU-East' not in customer's prior transaction history"},
+    {"transaction_id": 19, "rule_name": "high_frequency", "risk_score": 0.30, "review_status": "pending", "review_reason": "6 transactions recorded in past 60 minutes"},
+    {"transaction_id": 20, "rule_name": "multi_rule", "risk_score": 0.70, "review_status": "pending", "review_reason": "Amount $8,500.00 exceeds 3x customer average; Off-hours transaction at 04:30; Unfamiliar region 'APAC-South'"}
   ]
 }

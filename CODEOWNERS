@@ -1,0 +1,31 @@
+# ============================================
+# Project 21 - CODEOWNERS
+# GitHub will automatically request reviews from these users.
+# Replace @placeholder usernames with your teammates' actual GitHub handles.
+# ============================================
+
+# Root files - whole team
+* @Padilammounika-21
+
+# Data layer (Person 1)
+/app/db/ @Padilammounika-21
+
+# Backend API layer (Person 2)
+/app/main.py @Padilammounika-21
+/app/api/ @Padilammounika-21
+
+# Rule engine (Person 3)
+/app/rules/ @Padilammounika-21
+
+# Analytics & visualization (Person 4)
+/app/api/analytics.py @Padilammounika-21
+/src/components/DashboardView.tsx @Padilammounika-21
+
+# Tests, QA, CI/CD (Person 5)
+/tests/ @Padilammounika-21
+/.github/ @Padilammounika-21
+
+# Documentation
+/docs/ @Padilammounika-21
+CONTRIBUTING.md @Padilammounika-21
+README.md @Padilammounika-21

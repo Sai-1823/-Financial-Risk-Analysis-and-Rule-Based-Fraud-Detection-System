@@ -1,0 +1,63 @@
+# ============================================
+# Project 21 - .gitignore
+# ============================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# --- Node / Frontend ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.bundle/
+.vite/
+*.tsbuildinfo
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.Thumbs.db
+
+# --- Project artifacts ---
+*.db
+*.sqlite
+*.sqlite3
+project21.db
+logs/
+*.log
+.pytest_cache/
+.coverage/
+htmlcov/
+.ipynb_checkpoints/
+
+# --- Secrets ---
+*.env
+!.env.example
+secrets/
+credentials.json
